@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>WA 实时翻译 · 设置</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#00A884" />
+        <path d="M9 9.5h14a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-7.6L11 25.5v-3.5H9a2 2 0 0 1-2-2V11.5a2 2 0 0 1 2-2z" fill="#fff" />
+        <rect x="11" y="12.6" width="10" height="1.9" rx=".95" fill="#00A884" />
+        <rect x="11" y="16.2" width="6.6" height="1.9" rx=".95" fill="#00A884" />
+      </svg>
+      <div>
+        <h1>WA 实时翻译</h1>
+        <p>WhatsApp Web 客户消息 · 原文下方直显中文译文</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>基本设置</h2>
+
+      <div class="field">
+        <label for="enabled">启用翻译</label>
+        <label class="switch">
+          <input type="checkbox" id="enabled" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="target">译成</label>
+        <select id="target" class="ctl">
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="translateOutgoing">也翻译我发出的消息</label>
+        <label class="switch">
+          <input type="checkbox" id="translateOutgoing" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="showLangTag">显示识别到的语种</label>
+        <label class="switch">
+          <input type="checkbox" id="showLangTag" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="maxChars">单条最多翻译字数</label>
+        <input type="number" id="maxChars" class="ctl num" min="200" max="6000" step="100" />
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>翻译引擎</h2>
+      <p class="tip">
+        精度从低到高：<b>Google</b> → <b>DeepL</b> → <b>大模型</b>。<br />
+        客户消息短、缺标点、常带缩写，只有大模型能靠上下文判断句子关系，翻得最像人话。
+      </p>
+
+      <div class="engines">
+        <label class="engine">
+          <input type="radio" name="provider" value="google" />
+          <div class="engine-body">
+            <div class="engine-title">Google 翻译 <span class="badge">免费 · 免配置</span></div>
+            <div class="engine-desc">开箱可用、速度最快，但只看单句，遇到省标点的口语容易把状语连错句。</div>
+          </div>
+        </label>
+
+        <label class="engine">
+          <input type="radio" name="provider" value="deepl" />
+          <div class="engine-body">
+            <div class="engine-title">DeepL <span class="badge gray">需 API Key</span></div>
+            <div class="engine-desc">欧美语种更通顺，支持传入上文语境，免费额度 50 万字符/月。</div>
+          </div>
+        </label>
+
+        <label class="engine">
+          <input type="radio" name="provider" value="llm" />
+          <div class="engine-body">
+            <div class="engine-title">大模型 <span class="badge ok">最准 · 推荐</span></div>
+            <div class="engine-desc">懂上下文、懂行业术语、会自动断句，最贴近人工客服译文（推荐 DeepSeek，成本约每千字几分钱）。</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- DeepL -->
+      <div class="panel" id="panel-deepl">
+        <div class="field col">
+          <label for="deeplKey">DeepL API Key</label>
+          <input type="password" id="deeplKey" class="ctl wide" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:fx" />
+          <span class="hint">免费版 Key 以 <code>:fx</code> 结尾，会自动走 api-free 域名。</span>
+        </div>
+      </div>
+
+      <!-- LLM -->
+      <div class="panel" id="panel-llm">
+        <div class="field col">
+          <label for="llmBase">Base URL</label>
+          <input type="text" id="llmBase" class="ctl wide" placeholder="https://api.deepseek.com/v1" />
+          <span class="hint">兼容 OpenAI 接口即可，例如 DeepSeek、通义千问、OpenAI。</span>
+        </div>
+        <div class="field col">
+          <label for="llmKey">API Key</label>
+          <input type="password" id="llmKey" class="ctl wide" placeholder="sk-..." />
+        </div>
+        <div class="field col">
+          <label for="llmModel">模型名</label>
+          <input type="text" id="llmModel" class="ctl wide" placeholder="deepseek-chat" />
+        </div>
+        <div class="field col">
+          <label for="llmPrompt">翻译提示词（可留空用默认）</label>
+          <textarea id="llmPrompt" class="ctl wide" rows="4"
+            placeholder="你是专业的即时通讯翻译助手……留空则使用内置提示词"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="test" class="btn primary">测试连接</button>
+        <span id="testResult" class="test-result"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>翻译精度</h2>
+      <p class="tip">
+        机翻最常错在<b>断句和状语归属</b>。客户写消息不点标点，机器会把后半句当成前半句的补充。
+      </p>
+      <div class="cmp">
+        <div class="cmp-row plain">
+          <span class="cmp-k">原文</span>
+          <span class="cmp-v">Olá desculpe a demora na segunda feira vejo isso</span>
+        </div>
+        <div class="cmp-row bad">
+          <span class="cmp-k">直译</span>
+          <span class="cmp-v">抱歉周一耽搁了，我看到了这个</span>
+        </div>
+        <div class="cmp-row ok">
+          <span class="cmp-k">正确</span>
+          <span class="cmp-v">你好，抱歉久等了，这事我周一再看看</span>
+        </div>
+      </div>
+      <p class="tip">差别在于 <code>na segunda feira</code> 修饰的是 <code>vejo isso</code>（周一我处理），不是 <code>desculpe a demora</code>。打开下面的「带上文」并配好大模型，这类错就基本不会出现。</p>
+
+      <div class="field">
+        <label for="useContext">带上文一起翻译</label>
+        <label class="switch">
+          <input type="checkbox" id="useContext" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="contextCount">携带前几条消息作背景</label>
+        <select id="contextCount" class="ctl">
+          <option value="0">0 条（只看本句）</option>
+          <option value="1">1 条</option>
+          <option value="2">2 条（推荐）</option>
+          <option value="3">3 条</option>
+          <option value="5">5 条</option>
+        </select>
+      </div>
+
+      <div class="field col">
+        <label for="glossary">术语表（外贸常用词强制对照）</label>
+        <textarea id="glossary" class="ctl wide" rows="5" placeholder="pedido=订单
+prazo de entrega=交期
+amostra=样品
+frete=运费
+MOQ=最小起订量
+cotización=报价"></textarea>
+        <span class="hint">每行一条 <code>原文=译文</code>，中英葡西阿都行。命中才生效，最多 300 条。</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>数据</h2>
+      <div class="actions">
+        <button id="clearCache" class="btn">清空翻译缓存</button>
+        <span class="hint" id="cacheInfo"></span>
+      </div>
+      <p class="tip">
+        译文缓存只保存在本机浏览器中；消息原文仅在你开启翻译时发送给所选翻译服务商，不会上传其它内容。
+      </p>
+    </section>
+
+    <div class="toast" id="toast">已保存</div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

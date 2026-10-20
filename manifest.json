@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "WA 实时翻译 · WhatsApp Web 中文翻译",
+  "version": "1.2.0",
+  "description": "在 WhatsApp Web 每条客户消息下方实时显示中文译文，自动识别英语、西班牙语、葡萄牙语、阿拉伯语等语种。",
+  "minimum_chrome_version": "102",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://web.whatsapp.com/*",
+    "https://translate.googleapis.com/*",
+    "https://api-free.deepl.com/*",
+    "https://api.deepl.com/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_title": "WA 实时翻译",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

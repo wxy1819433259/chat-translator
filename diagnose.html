@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>WA 实时翻译 · 诊断</title>
+  <link rel="stylesheet" href="options.css" />
+  <style>
+    .wrap { max-width: 900px; }
+    .kv { display: grid; grid-template-columns: 150px 1fr; gap: 6px 14px; padding: 4px 0 12px; font-size: 13px; }
+    .kv dt { color: var(--muted); }
+    .kv dd { margin: 0; font-variant-numeric: tabular-nums; word-break: break-all; }
+    .kv dd b { color: var(--brand-dark); }
+    @media (prefers-color-scheme: dark) { .kv dd b { color: #25d366; } }
+
+    .verdict {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.65;
+      margin: 6px 0 14px;
+      border: 1px solid var(--line);
+      background: rgba(134, 150, 160, .08);
+    }
+    .verdict.good { background: rgba(0, 168, 132, .08); border-color: rgba(0, 168, 132, .35); }
+    .verdict.bad { background: rgba(217, 48, 37, .07); border-color: rgba(217, 48, 37, .3); }
+    .verdict b { font-weight: 700; }
+
+    .sample {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 0 0 10px;
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+    .sample .id { font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--muted); }
+    .sample .txt { margin: 6px 0; }
+    .sample details { margin-top: 6px; }
+    .sample summary { cursor: pointer; color: var(--muted); font-size: 11.5px; }
+    .sample pre {
+      margin: 6px 0 0;
+      padding: 8px;
+      background: rgba(134, 150, 160, .1);
+      border-radius: 7px;
+      font-size: 11px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 260px;
+      overflow: auto;
+    }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .tag { font-size: 10.5px; padding: 2px 7px; border-radius: 20px; background: rgba(0,168,132,.12); color: var(--brand-dark); }
+    .tag.off { background: rgba(134,150,160,.16); color: var(--muted); }
+    @media (prefers-color-scheme: dark) { .tag { color: #25d366; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#00A884" />
+        <path d="M9 9.5h14a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-7.6L11 25.5v-3.5H9a2 2 0 0 1-2-2V11.5a2 2 0 0 1 2-2z" fill="#fff" />
+        <rect x="11" y="12.6" width="10" height="1.9" rx=".95" fill="#00A884" />
+        <rect x="11" y="16.2" width="6.6" height="1.9" rx=".95" fill="#00A884" />
+      </svg>
+      <div>
+        <h1>诊断报告</h1>
+        <p>检查插件在 WhatsApp 页面上到底识别到了什么</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>运行情况</h2>
+      <div id="verdict" class="verdict">正在检测…</div>
+      <dl class="kv" id="kv"></dl>
+    </section>
+
+    <section class="card">
+      <h2>消息识别样本</h2>
+      <p class="tip">下面是插件在当前聊天窗口里抓到的前几条消息。如果“正文”是空的，说明 WhatsApp 改版了，把这份报告发给开发者即可修好。</p>
+      <div id="samples"></div>
+      <div class="actions">
+        <button id="refresh" class="btn primary">重新检测</button>
+        <button id="copy" class="btn">复制完整报告</button>
+        <span id="hint" class="hint"></span>
+      </div>
+    </section>
+
+    <div class="toast" id="toast">已复制</div>
+  </div>
+
+  <script src="diagnose.js"></script>
+</body>
+</html>

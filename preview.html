@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WA 实时翻译 · 效果预览</title>
+  <link rel="stylesheet" href="content.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+      background: #eef2f3;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      color: #111b21;
+    }
+
+    .phone {
+      width: 460px;
+      max-width: 100%;
+      background: #efeae2;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(11, 20, 26, .18), 0 2px 8px rgba(11, 20, 26, .08);
+      border: 1px solid #d9dedd;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      background: #f0f2f5;
+      border-bottom: 1px solid #e2e5e7;
+    }
+    .avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, #00a884, #53bdeb);
+      color: #fff; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex: 0 0 auto;
+    }
+    .who { font-size: 13.5px; font-weight: 600; }
+    .who small { display: block; font-weight: 400; font-size: 11px; color: #667781; margin-top: 1px; }
+    .hint-top {
+      margin-left: auto;
+      font-size: 10.5px;
+      color: #008069;
+      background: rgba(0, 168, 132, .1);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .chat {
+      padding: 18px 14px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-image: radial-gradient(rgba(11,20,26,.045) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+
+    .bubble {
+      max-width: 78%;
+      padding: 6px 9px 7px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.45;
+      box-shadow: 0 1px .5px rgba(11, 20, 26, .13);
+      position: relative;
+    }
+    .in  { align-self: flex-start; background: #fff; border-top-left-radius: 2px; }
+    .out { align-self: flex-end; background: #d9fdd3; border-top-right-radius: 2px; }
+
+    .meta {
+      display: block;
+      text-align: right;
+      font-size: 10.5px;
+      color: #667781;
+      margin-top: 3px;
+      user-select: none;
+    }
+
+    .label {
+      text-align: center;
+      font-size: 11px;
+      color: #667781;
+      margin: 6px 0 2px;
+      user-select: none;
+    }
+    .label span {
+      background: #fff;
+      padding: 4px 11px;
+      border-radius: 8px;
+      box-shadow: 0 1px .5px rgba(11, 20, 26, .13);
+      display: inline-block;
+    }
+
+    .note {
+      max-width: 460px;
+      margin: 18px auto 0;
+      font-size: 12px;
+      color: #667781;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .note code {
+      background: rgba(0,168,132,.1);
+      color: #008069;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="phone">
+      <div class="topbar">
+        <div class="avatar">JM</div>
+        <div class="who">Juan Martín<small>en línea</small></div>
+        <div class="hint-top">译 · 西语</div>
+      </div>
+
+      <div class="chat">
+        <div class="label"><span>今天</span></div>
+
+        <div class="bubble in">
+          Hola, buenos días. Necesito saber el precio del pedido de 500 unidades y si tienen stock disponible.
+          <div class="wat-blk" data-status="done"><span class="wat-tag">译 · 西语</span><span class="wat-text">你好，早上好。我想了解 500 件订单的价格，以及目前是否有现货。</span></div>
+          <span class="meta">10:31</span></div>
+
+        <div class="bubble out">
+          Hi Juan, 500 units are in stock. The unit price is $4.20, and we can ship within 3 days.
+          <span class="meta">10:33</span></div>
+
+        <div class="bubble in">
+          Olá desculpe a demora na segunda feira vejo isso
+          <div class="wat-blk" data-status="done"><span class="wat-tag wat-tag-ai">译 · 葡语</span><span class="wat-text">你好，抱歉久等了，这事我周一再看看。</span></div>
+          <span class="meta">10:35</span></div>
+
+        <div class="bubble in">
+          مرحبا، هل يمكن الدفع عن طريق التحويل البنكي؟
+          <div class="wat-blk" data-status="done"><span class="wat-tag">译 · 阿语</span><span class="wat-text">你好，可以走银行转账付款吗？</span></div>
+          <span class="meta">10:36</span></div>
+
+        <div class="bubble in">
+          Ok, perfecto. ¿Me envías la factura proforma hoy?
+          <div class="wat-blk" data-status="pending"><span class="wat-dots"><i></i><i></i><i></i></span><span class="wat-hint">翻译中…</span></div>
+          <span class="meta">10:38</span></div>
+
+        <div class="bubble in">
+          Gracias por la respuesta rápida, hablamos luego.
+          <div class="wat-blk" data-status="error"><span class="wat-err">⚠ 翻译失败 · 点此重试</span></div>
+          <span class="meta">10:39</span></div>
+      </div>
+    </div>
+
+    <div class="note">
+      这是样式预览页（<code>preview.html</code>），用来确认译文块的观感。<br />
+      真实使用时译文会直接出现在 WhatsApp Web 每条消息原文的下方。<br />
+      带 <b>AI</b> 小标签的那条，点击标签即可用大模型带上下文重译这一句。
+    </div>
+  </div>
+</body>
+</html>

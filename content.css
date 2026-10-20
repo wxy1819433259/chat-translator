@@ -1,0 +1,169 @@
+/* ============ WA 实时翻译 · 译文字块样式 ============ */
+/* 用 !important 覆盖 WhatsApp 自带的全局重置，颜色采用半透明青绿，
+   在浅色 / 深色气泡上都能读清。 */
+
+.wat-blk {
+  display: block !important;
+  box-sizing: border-box !important;
+  /* WhatsApp 气泡内部是 flex 布局，强制独占一行，避免译文挤在原文右侧 */
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  align-self: stretch !important;
+  max-width: 100% !important;
+  margin: 5px 0 2px !important;
+  padding: 6px 9px !important;
+  border-radius: 8px !important;
+  border-left: 3px solid #00a884 !important;
+  background: rgba(0, 168, 132, 0.10) !important;
+  color: inherit !important;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Segoe UI", Roboto, sans-serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0 !important;
+  text-align: left !important;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  opacity: 1 !important;
+  transform: none !important;
+  animation: watFade 0.18s ease-out;
+}
+
+@keyframes watFade {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: none; }
+}
+
+.wat-blk .wat-tag {
+  display: inline-block !important;
+  margin-right: 6px !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  color: #008069 !important;
+  letter-spacing: 0.3px !important;
+  vertical-align: 1px !important;
+  user-select: none !important;
+}
+
+.wat-blk .wat-text {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+}
+
+/* 语种标签可点：用大模型精译这一步 */
+.wat-blk .wat-tag-ai {
+  cursor: pointer !important;
+  padding: 0 4px !important;
+  margin-left: -4px !important;
+  border-radius: 4px !important;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.wat-blk .wat-tag-ai:hover {
+  background: rgba(0, 168, 132, 0.16) !important;
+  color: #00695c !important;
+}
+
+.wat-blk .wat-tag-ai::after {
+  content: "AI";
+  display: inline-block !important;
+  margin-left: 4px !important;
+  padding: 0 3px !important;
+  border-radius: 3px !important;
+  font-size: 8.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+  line-height: 1.5 !important;
+  color: #fff !important;
+  background: rgba(0, 168, 132, 0.55) !important;
+  vertical-align: 1px !important;
+}
+
+/* 译文中… */
+.wat-blk[data-status="pending"] {
+  background: rgba(0, 168, 132, 0.06) !important;
+  border-left-color: rgba(0, 168, 132, 0.45) !important;
+}
+
+.wat-blk .wat-dots {
+  display: inline-flex !important;
+  gap: 3px !important;
+  margin-right: 6px !important;
+  vertical-align: middle !important;
+}
+
+.wat-blk .wat-dots i {
+  display: block !important;
+  width: 4px !important;
+  height: 4px !important;
+  border-radius: 50% !important;
+  background: currentColor !important;
+  opacity: 0.35 !important;
+  animation: watBlink 1.2s infinite ease-in-out !important;
+}
+
+.wat-blk .wat-dots i:nth-child(2) { animation-delay: 0.18s !important; }
+.wat-blk .wat-dots i:nth-child(3) { animation-delay: 0.36s !important; }
+
+@keyframes watBlink {
+  0%, 100% { opacity: 0.25; transform: translateY(0); }
+  50% { opacity: 0.9; transform: translateY(-1px); }
+}
+
+.wat-blk .wat-hint {
+  font-size: 12px !important;
+  opacity: 0.55 !important;
+}
+
+/* 失败可点重试 */
+.wat-blk[data-status="error"] {
+  background: rgba(233, 74, 55, 0.08) !important;
+  border-left-color: rgba(233, 74, 55, 0.6) !important;
+}
+
+.wat-blk .wat-err {
+  font-size: 12px !important;
+  color: #c0392b !important;
+  cursor: pointer !important;
+  text-decoration: underline dotted !important;
+}
+
+/* ---------------- 深色模式 ---------------- */
+body.dark .wat-blk,
+html.dark .wat-blk {
+  background: rgba(0, 168, 132, 0.18) !important;
+}
+
+body.dark .wat-blk[data-status="pending"],
+html.dark .wat-blk[data-status="pending"] {
+  background: rgba(0, 168, 132, 0.10) !important;
+}
+
+body.dark .wat-blk .wat-tag,
+html.dark .wat-blk .wat-tag {
+  color: #25d366 !important;
+}
+
+body.dark .wat-blk .wat-tag-ai:hover,
+html.dark .wat-blk .wat-tag-ai:hover {
+  color: #a7f3d0 !important;
+  background: rgba(37, 211, 102, 0.22) !important;
+}
+
+body.dark .wat-blk[data-status="error"],
+html.dark .wat-blk[data-status="error"] {
+  background: rgba(233, 74, 55, 0.16) !important;
+}
+
+body.dark .wat-blk .wat-err,
+html.dark .wat-blk .wat-err {
+  color: #ff8a80 !important;
+}

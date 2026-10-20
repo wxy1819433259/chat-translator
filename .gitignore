@@ -1,0 +1,16 @@
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# 依赖与构建产物
+node_modules/
+.tmp/
+*.zip
+*.crx
+*.pem
+
+# 本地测试脚本
+/tests/local/

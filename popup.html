@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>WA 实时翻译</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="head">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#00A884" />
+        <path d="M9 9.5h14a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-7.6L11 25.5v-3.5H9a2 2 0 0 1-2-2V11.5a2 2 0 0 1 2-2z" fill="#fff" />
+        <rect x="11" y="12.6" width="10" height="1.9" rx=".95" fill="#00A884" />
+        <rect x="11" y="16.2" width="6.6" height="1.9" rx=".95" fill="#00A884" />
+      </svg>
+      <div>
+        <div class="name">WA 实时翻译</div>
+        <div class="sub">消息下方直接显示中文</div>
+      </div>
+    </div>
+    <label class="switch" title="开启 / 关闭翻译">
+      <input type="checkbox" id="enabled" />
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <div class="status" id="statusBar">
+    <span class="dot" id="statusDot"></span>
+    <span id="statusText">正在检测当前页面…</span>
+    <span class="count" id="statusCount"></span>
+  </div>
+
+  <main class="body">
+    <div class="row">
+      <label class="lbl" for="target">译成</label>
+      <select id="target" class="ctl">
+        <option value="zh-CN">简体中文</option>
+        <option value="zh-TW">繁體中文</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label class="lbl" for="provider">翻译引擎</label>
+      <select id="provider" class="ctl">
+        <option value="google">Google（免费，免配置）</option>
+        <option value="deepl">DeepL（需 Key）</option>
+        <option value="llm">大模型（需 Key，质量最好）</option>
+      </select>
+    </div>
+
+    <label class="check">
+      <input type="checkbox" id="useContext" />
+      <span>带上文翻译（更准，推荐）</span>
+    </label>
+
+    <label class="check">
+      <input type="checkbox" id="translateOutgoing" />
+      <span>也翻译我发出的消息</span>
+    </label>
+
+    <label class="check">
+      <input type="checkbox" id="showLangTag" />
+      <span>显示识别到的语种（如 西语 / 阿语）</span>
+    </label>
+  </main>
+
+  <div class="hintbar" id="precisionHint" hidden>
+    <span class="hintbar-txt">单句机翻容易翻错长句</span>
+    <button id="upgradeEngine" class="mini">换 AI 引擎</button>
+  </div>
+
+  <footer class="foot">
+    <button id="clearCache" class="link-btn">清空缓存</button>
+    <button id="openDiag" class="link-btn">诊断</button>
+    <button id="openOptions" class="link-btn">设置</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
